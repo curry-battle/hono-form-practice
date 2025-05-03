@@ -1,25 +1,30 @@
-import { cloudflare } from "@cloudflare/vite-plugin";
-import build from "@hono/vite-build/cloudflare-workers";
+import pages from "@hono/vite-cloudflare-pages";
+import devServer from "@hono/vite-dev-server";
 import { defineConfig } from "vite";
-import ssrHotReload from "vite-plugin-ssr-hot-reload";
 
-export default defineConfig(({ command, isSsrBuild }) => {
-  if (command === "serve") {
-    return { plugins: [ssrHotReload(), cloudflare()] };
-  }
-  if (!isSsrBuild) {
+export default defineConfig(({ mode }) => {
+  if (mode === "client") {
     return {
       build: {
         rollupOptions: {
-          input: ["./src/style.css"],
+          input: "./src/client.tsx",
           output: {
-            assetFileNames: "assets/[name].[ext]",
+            entryFileNames: "static/client.js",
           },
         },
       },
     };
   }
+
   return {
-    plugins: [build({ outputDir: "dist-server" })],
+    ssr: {
+      external: ["react", "react-dom"],
+    },
+    plugins: [
+      pages(),
+      devServer({
+        entry: "src/index.tsx",
+      }),
+    ],
   };
 });

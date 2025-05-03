@@ -1,20 +1,36 @@
 import { Hono } from "hono";
-import Form from "./Form";
+import { renderToString } from "react-dom/server";
 import IndexPage from "./pages/Index";
-import { renderer } from "./renderer";
 
 const app = new Hono();
 
-app.use(renderer);
-
+// see: https://zenn.dev/yusukebe/articles/06d9cc1714bfb7
 // as component
 app.get("/react", (c) => {
-  return c.render(<Form />);
+  return c.html(
+    renderToString(
+      <html lang="en">
+        <head>
+          <meta charSet="utf-8" />
+          <meta content="width=device-width, initial-scale=1" name="viewport" />
+          {import.meta.env.PROD ? (
+            <script type="module" src="/static/client.js" />
+          ) : (
+            <script type="module" src="/src/client.tsx" />
+          )}
+        </head>
+        <body>
+          <div id="root" />
+        </body>
+      </html>,
+    ),
+  );
 });
 
 // as html
 app.get("/", (c) => {
-  return c.render(<IndexPage />);
+  // TODO: dead html
+  return c.html(renderToString(<IndexPage />));
 });
 
 export default app;
