@@ -27,10 +27,13 @@ export default function Form() {
   };
 
   return (
-    // React.FormEvent<HTMLFormElement> ではない!
-    <form onSubmit={(e: Event) => handleSubmit(e)}>
-      <input name="text" type="text" placeholder="Enter text" />
-      <button type="submit">Submit</button>
-    </form>
+    <>
+      <h1>Component Form</h1>
+      {/* React.FormEvent<HTMLFormElement> ではない! */}
+      <form onSubmit={(e: Event) => handleSubmit(e)}>
+        <input name="text" type="text" placeholder="Enter text" />
+        <button type="submit">Submit</button>
+      </form>
+    </>
   );
 }
