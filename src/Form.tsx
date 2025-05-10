@@ -1,8 +1,5 @@
-import type { Event } from "hono/jsx";
-
 export default function Form() {
-  // TODO: cannot hit this function
-  const handleSubmit = async (event: Event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log("Form submitted");
 
@@ -28,9 +25,8 @@ export default function Form() {
 
   return (
     <>
-      <h1>Component Form</h1>
-      {/* React.FormEvent<HTMLFormElement> ではない! */}
-      <form onSubmit={(e: Event) => handleSubmit(e)}>
+      <h2>Component Form</h2>
+      <form onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleSubmit(e)}>
         <input name="text" type="text" placeholder="Enter text" />
         <button type="submit">Submit</button>
       </form>
