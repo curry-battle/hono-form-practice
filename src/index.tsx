@@ -29,8 +29,7 @@ app.get("/", (c) => {
 app.get("/spa", (c) => {
   return c.html(
     renderToString(
-      // biome-ignore lint/a11y/useHtmlLang: <explanation>
-      <html>
+      <html lang="en">
         <head>
           <meta charSet="utf-8" />
           <meta content="width=device-width, initial-scale=1" name="viewport" />
